@@ -1,1 +1,86 @@
-/Debug/
+# General files and directories to ignore
+*.o                  # Object files
+*.obj                # Object files (Windows)
+*.exe                # Executables
+*.dll                # Dynamic libraries (Windows)
+*.so                 # Shared libraries (Linux)
+*.dylib              # Shared libraries (macOS)
+*.out                # Output files
+*.a                  # Static libraries
+*.lib                # Static libraries (Windows)
+*.pdb                # Program database (Windows)
+*.pch                # Precompiled headers
+*.lo                 # Libtool object files
+*.la                 # Libtool archive files
+*.class              # Java class files (if mixed project)
+*.pyc                # Compiled Python files (if mixed project)
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+.\#*
+
+# Build directories
+build/
+bin/
+lib/
+obj/
+out/
+
+# Debug and logs
+*.log
+*.trace
+*.dmp                # Dump files
+
+# Dependency files
+*.d                  # Dependency files
+*.dep                # Dependency information
+
+# IDE-specific ignores
+
+# Visual Studio
+.vscode/             # Visual Studio Code workspace settings
+.vs/                 # Visual Studio project files
+*.user               # User-specific settings
+*.suo                # Solution user options
+*.sln                # Solution files (optional)
+*.vcxproj            # Project files (optional)
+*.vcxproj.user       # User-specific project files
+ipch/                # Intellisense cache
+*.tlog               # Build log files
+*.lastbuildstate     # Build state
+
+# Xcode
+*.xcuserstate        # User state files
+*.xcworkspace        # Workspace settings
+*.xcodeproj          # Xcode project files (optional)
+xcuserdata/          # User-specific data
+build/               # Build directory (Xcode)
+
+# CMake
+CMakeFiles/          # CMake internal files
+CMakeCache.txt       # CMake cache
+cmake_install.cmake  # Install script
+Makefile             # Generated makefile
+
+# Code::Blocks
+*.layout
+*.depend
+*.layout
+*.cbp
+*.workspace
+
+# JetBrains CLion
+.idea/
+cmake-build-debug/
+cmake-build-release/
+cmake-build-relwithdebinfo/
+cmake-build-minsizerel/
+
+# Miscellaneous
+.DS_Store            # macOS Finder file
+Thumbs.db            # Windows thumbnail cache
+desktop.ini          # Windows desktop file
