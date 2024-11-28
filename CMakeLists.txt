@@ -1,19 +1,22 @@
 cmake_minimum_required(VERSION 3.15)
 project(SoftPosit C)
 
-# Opciones configurables (similares a las variables del Makefile)
-set(SOURCE_DIR ${CMAKE_SOURCE_DIR}/source CACHE STRING "Source directory")
-set(PYTHON_DIR ${CMAKE_SOURCE_DIR}/python CACHE STRING "Python bindings directory")
+set(SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/source CACHE STRING "Source directory")
+set(PYTHON_DIR ${CMAKE_CURRENT_SOURCE_DIR}/python CACHE STRING "Python bindings directory")
 set(SPECIALIZE_TYPE 8086-SSE CACHE STRING "Specialized type directory")
 set(SOFTPOSIT_OPTS "-DINLINE_LEVEL=5" CACHE STRING "Additional compilation options")
 set(COMPILER_FLAGS "-Werror-implicit-function-declaration -DSOFTPOSIT_FAST_INT64 -O2")
 
-# Directorios de búsqueda de encabezados
-include_directories(${SOURCE_DIR}/include ${SOURCE_DIR}/${SPECIALIZE_TYPE} .)
+add_library(softposit_include INTERFACE)
 
-# Archivos fuente
-set(OBJS_PRIMITIVES "") # Define aquí si hay archivos específicos
-set(OBJS_SPECIALIZE "") # Define aquí si hay archivos específicos
+target_include_directories(softposit_include INTERFACE
+    ${SOURCE_DIR}/include
+    ${SOURCE_DIR}/${SPECIALIZE_TYPE}
+    .
+)
+
+set(OBJS_PRIMITIVES "")
+set(OBJS_SPECIALIZE "")
 
 set(OBJS_OTHERS
     s_addMagsP8.c
@@ -126,32 +129,10 @@ set(OBJS_OTHERS
     c_convertQuireX2ToPositX2.c
 )
 
-# Archivos fuente completos
 set(OBJS_ALL ${OBJS_PRIMITIVES} ${OBJS_SPECIALIZE} ${OBJS_OTHERS})
-list(TRANSFORM OBJS_ALL PREPEND ${SOURCE_DIR}/) # Agrega rutas completas
+list(TRANSFORM OBJS_ALL PREPEND ${SOURCE_DIR}/)
 
-# Crear biblioteca estática
 add_library(softposit STATIC ${OBJS_ALL})
 target_compile_options(softposit PRIVATE ${SOFTPOSIT_OPTS} ${COMPILER_FLAGS})
 
-# Crear biblioteca compartida si es necesario
-option(BUILD_SHARED_LIBS "Build shared library" OFF)
-if(BUILD_SHARED_LIBS)
-    add_library(softposit_shared SHARED ${OBJS_ALL})
-    target_compile_options(softposit_shared PRIVATE ${SOFTPOSIT_OPTS} ${COMPILER_FLAGS})
-endif()
-
-# Python bindings
-option(BUILD_PYTHON_BINDINGS "Build Python bindings" OFF)
-if(BUILD_PYTHON_BINDINGS)
-    add_library(softposit_python MODULE ${PYTHON_DIR}/softposit_python_wrap.c)
-    target_compile_options(softposit_python PRIVATE -fPIC ${COMPILER_FLAGS})
-    target_link_libraries(softposit_python PRIVATE softposit)
-    set_target_properties(softposit_python PROPERTIES PREFIX "" SUFFIX ".so")
-endif()
-
-# Limpiar
-add_custom_target(clean-all
-    COMMAND ${CMAKE_COMMAND} -P ${CMAKE_BINARY_DIR}/cmake_clean.cmake
-    COMMENT "Cleaning all built files"
-)
+target_link_libraries(softposit PUBLIC softposit_include)
