@@ -84,3 +84,6 @@ cmake-build-minsizerel/
 .DS_Store            # macOS Finder file
 Thumbs.db            # Windows thumbnail cache
 desktop.ini          # Windows desktop file
+
+#Build
+build/
