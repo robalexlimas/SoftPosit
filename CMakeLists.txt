@@ -133,6 +133,6 @@ set(OBJS_ALL ${OBJS_PRIMITIVES} ${OBJS_SPECIALIZE} ${OBJS_OTHERS})
 list(TRANSFORM OBJS_ALL PREPEND ${SOURCE_DIR}/)
 
 add_library(softposit STATIC ${OBJS_ALL})
-target_compile_options(softposit PRIVATE ${SOFTPOSIT_OPTS} ${COMPILER_FLAGS})
+target_compile_options(softposit PRIVATE "${SOFTPOSIT_OPTS} ${COMPILER_FLAGS}")
 
 target_link_libraries(softposit PUBLIC softposit_include)
